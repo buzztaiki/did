@@ -11,8 +11,8 @@ Config example::
 """
 
 import json
-import urllib
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.parse
 from datetime import datetime
 
 from did.utils import log, pretty
@@ -40,13 +40,13 @@ class Change(object):
 
     def __unicode__(self):
         """ Consistent identifier and subject for displaying """
-        return u"{0}#{1} - {2}".format(self.prefix, self.id, self.subject)
+        return "{0}#{1} - {2}".format(self.prefix, self.id, self.subject)
 
     def __eq__(self, other):
-        return unicode(self) == unicode(other)
+        return str(self) == str(other)
 
     def __hash__(self):
-        return hash(unicode(self))
+        return hash(str(self))
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #  Gerrit Stats
@@ -57,15 +57,15 @@ class Gerrit(object):
      curl -s 'https://REPOURL/gerrit/changes/?q=is:abandoned+age:7d'
     """
     def __init__(self, baseurl, prefix):
-        self.opener = urllib.FancyURLopener()
+        self.opener = urllib.request.FancyURLopener()
         self.baseurl = baseurl
         self.prefix = prefix
 
     @staticmethod
     def join_URL_frags(base, query):
-        split = list(urlparse.urlsplit(base))
+        split = list(urllib.parse.urlsplit(base))
         split[2] = (split[2] + query).replace('//', '/')
-        return urlparse.urlunsplit(split)
+        return urllib.parse.urlunsplit(split)
 
     def get_query_result(self, url):
         log.debug('url = {0}'.format(url))
@@ -146,7 +146,7 @@ class GerritUnit(Stats):
             to eliminate items created after since option.
         """
         work_list = []
-        log.info(u"Searching for changes by {0}".format(self.user))
+        log.info("Searching for changes by {0}".format(self.user))
         log.debug('query_string = {0}, common_query_options = {1}'.format(
             query_string, common_query_options))
 
@@ -172,7 +172,7 @@ class GerritUnit(Stats):
             self.get_gerrit_date(self.options.since),
             self.get_gerrit_date(self.options.until))
 
-        if isinstance(common_query_options, basestring) and \
+        if isinstance(common_query_options, str) and \
                 len(common_query_options) > 0:
             query_string += common_query_options
 
@@ -192,7 +192,7 @@ class GerritUnit(Stats):
                 if chg_created >= self.since_date:
                     tmplist.append(chg)
             work_list = tmplist[:]
-        log.debug(u"work_list = {0}".format(work_list))
+        log.debug("work_list = {0}".format(work_list))
 
         # Return the list of tick_data objects
         return [Change(ticket, prefix=self.prefix) for ticket in work_list]
@@ -204,9 +204,9 @@ class AbandonedChanges(GerritUnit):
     Changes abandoned
     """
     def fetch(self):
-        log.info(u"Searching for changes abandoned by {0}".format(self.user))
+        log.info("Searching for changes abandoned by {0}".format(self.user))
         self.stats = GerritUnit.fetch(self, 'status:abandoned')
-        log.debug(u"self.stats = {0}".format(self.stats))
+        log.debug("self.stats = {0}".format(self.stats))
 
 
 class MergedChanges(GerritUnit):
@@ -215,9 +215,9 @@ class MergedChanges(GerritUnit):
     Changes successfully merged
     """
     def fetch(self):
-        log.info(u"Searching for changes merged by {0}".format(self.user))
+        log.info("Searching for changes merged by {0}".format(self.user))
         self.stats = GerritUnit.fetch(self, 'status:merged')
-        log.debug(u"self.stats = {0}".format(self.stats))
+        log.debug("self.stats = {0}".format(self.stats))
 
 
 class SubmitedChanges(GerritUnit):
@@ -233,20 +233,20 @@ class SubmitedChanges(GerritUnit):
     Changes submitted for review
     """
     def fetch(self):
-        log.info(u"Searching for changes opened by {0}".format(self.user))
+        log.info("Searching for changes opened by {0}".format(self.user))
         self.stats = GerritUnit.fetch(self, 'status:open -is:wip',
             limit_since=True)
-        log.debug(u"self.stats = {0}".format(self.stats))
+        log.debug("self.stats = {0}".format(self.stats))
 
 class WIPChanges(GerritUnit):
     """
     Work in progress changes
     """
     def fetch(self):
-        log.info(u"Searching for WIP changes opened by {0}".format(self.user))
+        log.info("Searching for WIP changes opened by {0}".format(self.user))
         self.stats = GerritUnit.fetch(self, 'status:open is:wip',
             limit_since=True)
-        log.debug(u"self.stats = {0}".format(self.stats))
+        log.debug("self.stats = {0}".format(self.stats))
 
 class AddedPatches(GerritUnit):
     # curl -s 'https://REPOURL\
@@ -255,7 +255,7 @@ class AddedPatches(GerritUnit):
     Additional patches added to existing changes
     """
     def fetch(self):
-        log.info(u"Searching for patches added to changes by {0}".format(
+        log.info("Searching for patches added to changes by {0}".format(
             self.user))
         reviewer = self.user.login
         self.stats = []
@@ -298,7 +298,7 @@ class AddedPatches(GerritUnit):
                 self.stats.append(
                     Change(tck.ticket, changelog=changes,
                            prefix=self.prefix))
-        log.debug(u"self.stats = {0}".format(self.stats))
+        log.debug("self.stats = {0}".format(self.stats))
 
 
 class ReviewedChanges(GerritUnit):
@@ -308,7 +308,7 @@ class ReviewedChanges(GerritUnit):
     Review of a change (for reviewers)
     """
     def fetch(self):
-        log.info(u"Searching for changes reviewed by {0}".format(self.user))
+        log.info("Searching for changes reviewed by {0}".format(self.user))
         # Collect ALL changes opened (and perhaps now closed) after
         # given date and collect all reviews from them ... then limit by
         # actual reviewer (not reviewer:<login> because that doesn’t
@@ -344,7 +344,7 @@ class ReviewedChanges(GerritUnit):
                 self.stats.append(
                     Change(tck.ticket, changelog=changes,
                            prefix=self.prefix))
-        log.debug(u"self.stats = {0}".format(self.stats))
+        log.debug("self.stats = {0}".format(self.stats))
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

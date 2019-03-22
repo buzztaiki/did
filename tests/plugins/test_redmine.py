@@ -1,7 +1,7 @@
 # coding: utf-8
 """ Tests for the Redmine plugin """
 
-from __future__ import unicode_literals, absolute_import
+
 
 import pytest
 import did.cli
@@ -36,4 +36,4 @@ def test_redmine_activity():
     stats = did.cli.main(option + INTERVAL)[0][0].stats[0].stats[0].stats
     assert any(
         ["puppetserver fails to restart after installation"
-        in unicode(stat) for stat in stats])
+        in str(stat) for stat in stats])

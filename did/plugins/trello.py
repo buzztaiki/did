@@ -38,11 +38,11 @@ filters
 # Possible API methods to add:
 # http://developers.trello.com/advanced-reference/member
 
-from __future__ import unicode_literals, absolute_import
+
 
 import json
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 
 from did.base import Config, ReportError
 from did.utils import log, pretty, listed, split
@@ -95,7 +95,7 @@ class TrelloAPI(object):
                 "Fetching more than 1000 items is not implemented")
         resp = self.stats.session.open(
             "{0}/members/{1}/actions?{2}".format(
-                self.stats.url, self.username, urllib.urlencode({
+                self.stats.url, self.username, urllib.parse.urlencode({
                     "key": self.key,
                     "token": self.token,
                     "filter": filters,
@@ -115,7 +115,7 @@ class TrelloAPI(object):
         """ Convert board links to ids """
         resp = self.stats.session.open(
             "{0}/members/{1}/boards?{2}".format(
-                self.stats.url, self.username, urllib.urlencode({
+                self.stats.url, self.username, urllib.parse.urlencode({
                     "key": self.key,
                     "token": self.token,
                     "fields": "shortLink"})))
@@ -320,5 +320,5 @@ class TrelloStatsGroup(StatsGroup):
     def session(self):
         """ Initialize the session """
         if self._session is None:
-            self._session = urllib2.build_opener(urllib2.HTTPHandler)
+            self._session = urllib.request.build_opener(urllib.request.HTTPHandler)
         return self._session

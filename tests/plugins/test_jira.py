@@ -1,7 +1,7 @@
 # coding: utf-8
 """ Tests for the Jira plugin """
 
-from __future__ import unicode_literals, absolute_import
+
 
 import sys, os
 sys.path.insert(1, os.path.join(os.path.dirname(__file__), "..", ".."))

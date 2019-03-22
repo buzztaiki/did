@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Author: "Chris Ward" <cward@redhat.com>
 
-from __future__ import unicode_literals, absolute_import
+
 
 
 def test_Stats():

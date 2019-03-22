@@ -33,11 +33,11 @@ Notes:
   basic authentication.
 """
 
-from __future__ import absolute_import, unicode_literals
+
 
 import re
-import urllib
-import urllib2
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
 import requests
 import dateutil.parser
 import distutils.util
@@ -96,7 +96,7 @@ class Issue(object):
         for batch in range(MAX_BATCHES):
             response = stats.parent.session.get(
                 "{0}/rest/api/latest/search?{1}".format(
-                    stats.parent.url, urllib.urlencode({
+                    stats.parent.url, urllib.parse.urlencode({
                         "jql": query,
                         "fields": "summary,comment",
                         "maxResults": MAX_RESULTS,

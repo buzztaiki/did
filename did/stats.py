@@ -2,9 +2,9 @@
 
 """ Stats & StatsGroup, the core of the data gathering """
 
-from __future__ import unicode_literals, absolute_import
 
-import xmlrpclib
+
+import xmlrpc.client
 
 import did.base
 from did import utils
@@ -77,7 +77,7 @@ class Stats(object):
             return
         try:
             self.fetch()
-        except (xmlrpclib.Fault, did.base.ConfigError) as error:
+        except (xmlrpc.client.Fault, did.base.ConfigError) as error:
             log.error(error)
             self._error = True
             # Raise the exception if debugging

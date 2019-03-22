@@ -27,7 +27,7 @@ extras_require = {
     'tests': ['pytest', 'python-coveralls'],
     }
 extras_require['all'] = [dependency
-    for extra in extras_require.itervalues()
+    for extra in extras_require.values()
     for dependency in extra]
 
 # Prepare the long description from readme

@@ -106,7 +106,7 @@ class GitLab(object):
 
     def get_project_mr(self, project_id, mr_id):
         mrs = self.get_project_mrs(project_id)
-        mr = itertools.ifilter(lambda x: x['id'] == mr_id, mrs).next()
+        mr = next(itertools.ifilter(lambda x: x['id'] == mr_id, mrs))
         return mr
 
     def get_project_mrs(self, project_id):
@@ -118,7 +118,7 @@ class GitLab(object):
 
     def get_project_issue(self, project_id, issue_id):
         issues = self.get_project_issues(project_id)
-        issue = itertools.ifilter(lambda x: x['id'] == issue_id, issues).next()
+        issue = next(itertools.ifilter(lambda x: x['id'] == issue_id, issues))
         return issue
 
     def get_project_issues(self, project_id):
@@ -172,9 +172,9 @@ class Issue(object):
 
     def __unicode__(self):
         """ String representation """
-        return u"{0}#{1} - {2}".format(
+        return "{0}#{1} - {2}".format(
             self.project['path_with_namespace'],
-            unicode(self.id).zfill(PADDING), self.title)
+            str(self.id).zfill(PADDING), self.title)
 
 
 class MergeRequest(Issue):
@@ -206,7 +206,7 @@ class Note(Issue):
 class IssuesCreated(Stats):
     """ Issue created """
     def fetch(self):
-        log.info(u"Searching for Issues created by {0}".format(
+        log.info("Searching for Issues created by {0}".format(
             self.user))
         results = self.parent.gitlab.search(
             self.user.login, self.options.since, self.options.until,
@@ -219,7 +219,7 @@ class IssuesCreated(Stats):
 class IssuesCommented(Stats):
     """ Issue commented """
     def fetch(self):
-        log.info(u"Searching for Issues commented by {0}".format(
+        log.info("Searching for Issues commented by {0}".format(
             self.user))
         results = self.parent.gitlab.search(
             self.user.login, self.options.since, self.options.until,
@@ -233,7 +233,7 @@ class IssuesCommented(Stats):
 class IssuesClosed(Stats):
     """ Issue closed """
     def fetch(self):
-        log.info(u"Searching for Issues closed by {0}".format(
+        log.info("Searching for Issues closed by {0}".format(
             self.user))
         results = self.parent.gitlab.search(
             self.user.login, self.options.since, self.options.until,
@@ -246,7 +246,7 @@ class IssuesClosed(Stats):
 class MergeRequestsCreated(Stats):
     """ Merge requests created """
     def fetch(self):
-        log.info(u"Searching for Merge requests created by {0}".format(
+        log.info("Searching for Merge requests created by {0}".format(
             self.user))
         results = self.parent.gitlab.search(
             self.user.login, self.options.since, self.options.until,
@@ -259,7 +259,7 @@ class MergeRequestsCreated(Stats):
 class MergeRequestsCommented(Stats):
     """ MergeRequests commented """
     def fetch(self):
-        log.info(u"Searching for MergeRequests commented by {0}".format(
+        log.info("Searching for MergeRequests commented by {0}".format(
             self.user))
         results = self.parent.gitlab.search(
             self.user.login, self.options.since, self.options.until,
@@ -273,7 +273,7 @@ class MergeRequestsCommented(Stats):
 class MergeRequestsClosed(Stats):
     """ Merge requests closed """
     def fetch(self):
-        log.info(u"Searching for Merge requests closed by {0}".format(
+        log.info("Searching for Merge requests closed by {0}".format(
             self.user))
         results = self.parent.gitlab.search(
             self.user.login, self.options.since, self.options.until,

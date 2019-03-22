@@ -9,7 +9,7 @@ Config example::
     wiki test = http://moinmo.in/
 """
 
-import xmlrpclib
+import xmlrpc.client
 
 from did.utils import item
 from did.base import Config
@@ -29,7 +29,7 @@ class WikiChanges(Stats):
     def __init__(self, option, name=None, parent=None, url=None):
         self.url = url
         self.changes = 0
-        self.proxy = xmlrpclib.ServerProxy("{0}?action=xmlrpc2".format(url))
+        self.proxy = xmlrpc.client.ServerProxy("{0}?action=xmlrpc2".format(url))
         Stats.__init__(self, option, name, parent)
 
     def fetch(self):

@@ -2,7 +2,7 @@
 
 """ Config, Date, User and Exceptions """
 
-from __future__ import unicode_literals, absolute_import
+
 
 import os
 import re
@@ -10,12 +10,12 @@ import sys
 import codecs
 import datetime
 import optparse
-import StringIO
-import xmlrpclib
-import ConfigParser
+import io
+import xmlrpc.client
+import configparser
 from dateutil.relativedelta import MO as MONDAY
 from datetime import timedelta
-from ConfigParser import NoOptionError, NoSectionError
+from configparser import NoOptionError, NoSectionError
 from dateutil.relativedelta import relativedelta as delta
 
 from did import utils
@@ -87,12 +87,12 @@ class Config(object):
         # Read the config only once (unless explicitly provided)
         if self.parser is not None and config is None and path is None:
             return
-        Config.parser = ConfigParser.SafeConfigParser()
+        Config.parser = configparser.SafeConfigParser()
         # If config provided as string, parse it directly
         if config is not None:
             log.info("Inspecting config file from string")
             log.debug(utils.pretty(config))
-            self.parser.readfp(StringIO.StringIO(config))
+            self.parser.readfp(io.StringIO(config))
             return
         # Check the environment for config file override
         # (unless path is explicitly provided)
@@ -197,7 +197,7 @@ class Date(object):
         else:
             try:
                 self.date = datetime.date(*[int(i) for i in date.split("-")])
-            except StandardError as error:
+            except Exception as error:
                 log.debug(error)
                 raise OptionError(
                     "Invalid date format: '{0}', use YYYY-MM-DD.".format(date))
@@ -206,11 +206,11 @@ class Date(object):
 
     def __str__(self):
         """ Ascii version of the string representation """
-        return utils.ascii(unicode(self))
+        return utils.ascii(str(self))
 
     def __unicode__(self):
         """ String format for printing """
-        return unicode(self.date)
+        return str(self.date)
 
     def __add__(self, addend):
         """ 'addend' days after the date """

@@ -49,7 +49,7 @@ This is the default plugin order:
 
 """
 
-from __future__ import unicode_literals, absolute_import
+
 
 import os
 import sys
@@ -129,7 +129,7 @@ def detect():
         for object_name in dir(module):
             statsgroup = getattr(module, object_name)
             # Filter out anything except for StatsGroup descendants
-            if (not isinstance(statsgroup, (type, types.ClassType))
+            if (not isinstance(statsgroup, type)
                     or not issubclass(statsgroup, StatsGroup)
                     or statsgroup is StatsGroup
                     or statsgroup is EmptyStatsGroup):

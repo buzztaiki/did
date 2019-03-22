@@ -1,7 +1,7 @@
 # coding: utf-8
 """ Tests for the Bitly plugin """
 
-from __future__ import unicode_literals, absolute_import
+
 
 import pytest
 

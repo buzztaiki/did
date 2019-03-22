@@ -1,7 +1,7 @@
 # coding: utf-8
 """ Tests for the command line script """
 
-from __future__ import unicode_literals, absolute_import
+
 
 import os
 import re

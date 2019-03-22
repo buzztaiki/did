@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # Author: "Chris Ward" <cward@redhat.com>
 
-from __future__ import unicode_literals, absolute_import
+
 
 
 def test_utils_import():
@@ -80,12 +80,12 @@ def test_pluralize():
 def test_listed():
     from did.utils import listed
     assert listed
-    assert listed(range(1)) == "0"
-    assert listed(range(2)) == "0 and 1"
-    assert listed(range(3), quote='"') == '"0", "1" and "2"'
-    assert listed(range(4), max=3) == "0, 1, 2 and 1 more"
-    assert listed(range(5), 'number', max=3) == "0, 1, 2 and 2 more numbers"
-    assert listed(range(6), 'category') == "6 categories"
+    assert listed(list(range(1))) == "0"
+    assert listed(list(range(2))) == "0 and 1"
+    assert listed(list(range(3)), quote='"') == '"0", "1" and "2"'
+    assert listed(list(range(4)), max=3) == "0, 1, 2 and 1 more"
+    assert listed(list(range(5)), 'number', max=3) == "0, 1, 2 and 2 more numbers"
+    assert listed(list(range(6)), 'category') == "6 categories"
     assert listed(7, "leaf", "leaves") == "7 leaves"
     assert listed([], "item", max=0) == "0 items"
 
