@@ -24,7 +24,6 @@ __ https://docs.gitlab.com/ce/api/
 import distutils.util
 import requests
 import dateutil
-import itertools
 
 from did.utils import log, pretty, listed
 from did.base import Config, ReportError
@@ -106,7 +105,7 @@ class GitLab(object):
 
     def get_project_mr(self, project_id, mr_id):
         mrs = self.get_project_mrs(project_id)
-        mr = next(itertools.ifilter(lambda x: x['id'] == mr_id, mrs))
+        mr = next(filter(lambda x: x['id'] == mr_id, mrs))
         return mr
 
     def get_project_mrs(self, project_id):
@@ -118,7 +117,7 @@ class GitLab(object):
 
     def get_project_issue(self, project_id, issue_id):
         issues = self.get_project_issues(project_id)
-        issue = next(itertools.ifilter(lambda x: x['id'] == issue_id, issues))
+        issue = next(filter(lambda x: x['id'] == issue_id, issues))
         return issue
 
     def get_project_issues(self, project_id):
