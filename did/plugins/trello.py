@@ -103,7 +103,7 @@ class TrelloAPI(object):
                     "since": str(since),
                     "before": str(before)})))
 
-        actions = json.loads(resp.read())
+        actions = json.loads(resp.read().decode())
         log.data(pretty(actions))
         # print[act for act in actions if "shortLink" not in
         # act['data']['board'].keys()]
@@ -119,7 +119,7 @@ class TrelloAPI(object):
                     "key": self.key,
                     "token": self.token,
                     "fields": "shortLink"})))
-        boards = json.loads(resp.read())
+        boards = json.loads(resp.read().decode())
 
         return [board['id'] for board in boards if self.board_links == [""]
                 or board['shortLink'] in self.board_links]

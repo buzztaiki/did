@@ -76,7 +76,7 @@ class Gerrit(object):
 
         # see https://code.google.com/p/gerrit/issues/detail?id=2006
         # for explanation of skipping first four characters
-        json_str = res.read()[4:].strip()
+        json_str = res.read().decode()[4:].strip()
         try:
             data = json.loads(json_str)
         except ValueError:

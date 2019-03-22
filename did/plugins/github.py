@@ -62,7 +62,7 @@ class GitHub(object):
             log.debug(error)
             raise ReportError(
                 "GitHub search on {0} failed.".format(self.url))
-        result = json.loads(response.read())["items"]
+        result = json.loads(response.read().decode())["items"]
         log.debug("Result: {0} fetched".format(listed(len(result), "item")))
         log.data(pretty(result))
         return result
