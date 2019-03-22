@@ -136,7 +136,7 @@ class Bug(object):
         self.prefix = parent.prefix
         self.parent = parent
 
-    def __unicode__(self):
+    def __str__(self):
         """ Consistent identifier and summary for displaying """
         if self.options.format == "wiki":
             return "<<Bug({0})>> - {1}".format(self.id, self.summary)

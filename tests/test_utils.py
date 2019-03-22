@@ -90,13 +90,6 @@ def test_listed():
     assert listed([], "item", max=0) == "0 items"
 
 
-def test_ascii():
-    from did.utils import ascii
-    assert ascii
-    assert ascii("ěščřžýáíé") == "escrzyaie"
-    assert ascii(0) == "0"
-
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #  Logging
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

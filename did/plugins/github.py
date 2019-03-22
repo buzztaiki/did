@@ -83,7 +83,7 @@ class Issue(object):
         self.project = matched.groups()[1]
         self.id = matched.groups()[2]
 
-    def __unicode__(self):
+    def __str__(self):
         """ String representation """
         return "{0}/{1}#{2} - {3}".format(
             self.owner, self.project,

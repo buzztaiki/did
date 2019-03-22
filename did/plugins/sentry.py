@@ -38,7 +38,7 @@ class Issue(object):
         self.identifier = issue["shortId"]
         self.title = issue["title"]
 
-    def __unicode__(self):
+    def __str__(self):
         """ Unicode representation """
         return "{0} - {1}".format(self.identifier, self.title)
 
@@ -53,7 +53,7 @@ class Activity(object):
         # Parse creation date
         self.created = dateutil.parser.parse(activity["dateCreated"]).date()
 
-    def __unicode__(self):
+    def __str__(self):
         """ Unicode representation """
         return "{0} [{1}] {2}".format(self.created, self.kind, self.issue)
 

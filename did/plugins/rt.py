@@ -88,7 +88,7 @@ class Ticket(object):
         self.id, self.subject = record.split("\t")
         self.parent = parent
 
-    def __unicode__(self):
+    def __str__(self):
         """ Consistent identifier and subject for displaying """
         return "{0}#{1} - {2}".format(
             self.parent.prefix, self.id, self.subject)

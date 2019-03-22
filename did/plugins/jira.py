@@ -82,7 +82,7 @@ class Issue(object):
         else:
             self.prefix = matched.groups()[0]
 
-    def __unicode__(self):
+    def __str__(self):
         """ Jira key and summary for displaying """
         return "{0}-{1} - {2}".format(
             self.prefix, self.identifier, self.summary)

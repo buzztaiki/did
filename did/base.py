@@ -205,10 +205,6 @@ class Date(object):
             self.date.year, self.date.month, self.date.day, 0, 0, 0)
 
     def __str__(self):
-        """ Ascii version of the string representation """
-        return utils.ascii(str(self))
-
-    def __unicode__(self):
         """ String format for printing """
         return str(self.date)
 
@@ -381,7 +377,7 @@ class User(object):
         # Check for possible aliases
         self.alias(aliases, stats)
 
-    def __unicode__(self):
+    def __str__(self):
         """ Use name & email for string representation. """
         if not self.name:
             return self.email

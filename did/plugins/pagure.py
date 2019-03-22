@@ -84,7 +84,7 @@ class Issue(object):
             self.closed = None
         log.details('[{0}] {1}'.format(self.created, self))
 
-    def __unicode__(self):
+    def __str__(self):
         """ String representation """
         return '{0}#{1} - {2}'.format(
             self.project, self.identifier, self.title)

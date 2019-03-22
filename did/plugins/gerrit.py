@@ -38,7 +38,7 @@ class Change(object):
         self.changelog = changelog
         self.prefix = prefix
 
-    def __unicode__(self):
+    def __str__(self):
         """ Consistent identifier and subject for displaying """
         return "{0}#{1} - {2}".format(self.prefix, self.id, self.subject)
 

@@ -157,13 +157,6 @@ def split(values, separator=re.compile("[ ,]+")):
     return sum([separator.split(value) for value in values], [])
 
 
-def ascii(text):
-    """ Transliterate special unicode characters into pure ascii """
-    if not isinstance(text, str):
-        text = str(text)
-    return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore')
-
-
 def info(message, newline=True):
     """ Log provided info message to the standard error output """
     sys.stderr.write(message + ("\n" if newline else ""))

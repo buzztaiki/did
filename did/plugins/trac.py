@@ -38,7 +38,7 @@ class Trac(object):
         self.summary = self.attributes["summary"]
         self.resolution = self.attributes["resolution"]
 
-    def __unicode__(self):
+    def __str__(self):
         """ Consistent identifier and summary for displaying """
         # Show only interesting resolutions to be more concise
         if self.resolution and self.resolution in INTERESTING_RESOLUTIONS:

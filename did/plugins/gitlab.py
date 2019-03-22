@@ -170,7 +170,7 @@ class Issue(object):
         return self.gitlabapi.get_project_issue(
             self.data['project_id'], self.data['target_id'])['iid']
 
-    def __unicode__(self):
+    def __str__(self):
         """ String representation """
         return "{0}#{1} - {2}".format(
             self.project['path_with_namespace'],

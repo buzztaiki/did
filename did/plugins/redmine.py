@@ -35,7 +35,7 @@ class Activity(object):
         self.data = data
         self.title = data.title
 
-    def __unicode__(self):
+    def __str__(self):
         """ String representation """
         return "{0}".format(self.title)
 
