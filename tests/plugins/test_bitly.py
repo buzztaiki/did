@@ -5,8 +5,6 @@
 
 import pytest
 
-from bitly_api import BitlyError
-
 import did.cli
 import did.base
 
@@ -57,7 +55,7 @@ def test_invalid_token():
     """ Invalid bitly token """
     import did
     did.base.Config(BAD_TOKEN_CONFIG)
-    with pytest.raises(BitlyError):
+    with pytest.raises(did.base.ReportError):
         did.cli.main(INTERVAL)
 
 

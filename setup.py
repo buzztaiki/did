@@ -17,7 +17,6 @@ install_requires = [
     'requests',
     ]
 extras_require = {
-    'bitly': ['bitly_api'],
     'bugzilla': ['python-bugzilla'],
     'docs': ['sphinx', 'mock', 'sphinx_rtd_theme'],
     'google': ['google-api-python-client', 'oauth2client'],

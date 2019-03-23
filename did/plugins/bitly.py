@@ -24,8 +24,8 @@ Available options:
 
 
 import time
-
-from bitly_api import Connection
+import json
+import urllib.request, urllib.parse, urllib.error
 
 from did.stats import Stats, StatsGroup
 from did.utils import log, pretty
@@ -60,11 +60,29 @@ class Bitly(object):
         if not self.token:
             raise ConfigError("bitly requires token to be defined in config")
 
-    @property
-    def api(self):
-        if not self._connection:
-            self._connection = Connection(access_token=self.token)
-        return self._connection
+    def request(self, path, **query):
+        if query is None:
+            query = {}
+
+        url = "https://api-ssl.bitly.com/v3/{}?{}".format(
+            path,
+            urllib.parse.urlencode(dict(query, access_token=self.token)))
+
+        try:
+            reqest = urllib.request.Request(url)
+            response = urllib.request.urlopen(reqest)
+            result = json.loads(response.read().decode())
+            if result["status_code"] != 200:
+                log.debug(response)
+                raise ReportError(
+                    "Bitly request failed on {} as {} {}.".format(
+                        path, result["status_code"], result["status_txt"]))
+
+            return result
+        except urllib.error.URLError as error:
+            log.debug(error)
+            raise ReportError(
+                "Bitly request failed on {} as {}.".format(path, error))
 
     def user_link_history(self, created_before=None, created_after=None,
                           limit=100, **kwargs):
@@ -83,9 +101,10 @@ class Bitly(object):
         limit = int(limit)
         created_after = int(created_after)
         created_before = int(created_before)
-        hist = self.api.user_link_history(
+        hist = self.request(
+            'user/link_history',
             limit=limit, created_before=created_before,
-            created_after=created_after)
+            created_after=created_after)['data']['link_history']
 
         # FIXME: if we have more than 100 objects we need to PAGINATE
         record = "{0} - {1}"
